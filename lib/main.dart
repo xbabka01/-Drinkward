@@ -1,5 +1,6 @@
 import 'package:drinkward/AddEventView.dart';
 import 'package:drinkward/BarsListView.dart';
+import 'package:drinkward/EventsListView.dart';
 import 'package:drinkward/login.dart';
 import 'package:flutter/material.dart';
 
@@ -101,7 +102,7 @@ class _MyHomePageState extends State<MyHomePage> {
               // Icon(Icons.calendar_today_rounded),
               Stack(
                 children: <Widget>[
-                  BarsListView(),
+                  EventsListView(),
                   Align(
                     alignment: Alignment.bottomRight,
                     child: Padding(
@@ -124,7 +125,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   )
                 ],
               ),
-              Icon(Icons.house_rounded),
+              BarsListView(),
               Icon(Icons.map_rounded),
             ],
           ),

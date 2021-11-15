@@ -8,71 +8,122 @@ class BarCardView extends StatefulWidget {
 }
 
 class _BarCardView extends State<BarCardView> {
-  // bool passwordVisible = false;
-
-  // void togglePassword() {
-  //   setState(() {
-  //     passwordVisible = !passwordVisible;
-  //   });
-  // }
-
-
-
 
   @override
   Widget build(BuildContext context) {
     return Center(
+      widthFactor: double.infinity,
       child: Card(
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: <Widget>[
-            ListTile(
-              leading: Icon(
-                Icons.local_drink_sharp,
-                color: Colors.blue,
-                size: 40.0,
+        child: Container(
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10),
+                  topRight: Radius.circular(10),
+                  bottomLeft: Radius.circular(10),
+                  bottomRight: Radius.circular(10)
               ),
-              title: Text('Finlandia 2+1'),
-              subtitle: Column(
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Icon(Icons.calendar_today_sharp),
-                      Text("21.8.2020 - 28.8.2020"),
-                      const SizedBox(width: 8),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Icon(Icons.location_on_sharp),
-                      Text("Hospoda u Karly, Brno"),
-                      const SizedBox(width: 8),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Icon(
-                        Icons.thumb_up_off_alt_outlined,
-                        color: Colors.green,
-                      ),
-                      Text("56x"),
-                      const SizedBox(width: 8),
-                      Icon(
-                        Icons.thumb_down_off_alt_outlined,
-                        color: Colors.red,
-                      ),
-                      Text("20x"),
-                      const SizedBox(width: 8),
-                    ],
-                  ),
-                ],
-              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 5,
+                  blurRadius: 7,
+                  offset: Offset(0, 3), // changes position of shadow
+                ),
+              ],
             ),
-          ],
-        ),
+            child: Row(
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.fromLTRB(0, 0, 25, 0),
+                  child: Column(
+                    children: [
+                      Icon(
+                        Icons.house_rounded,
+                        size: 70,
+                        color: Colors.blue,
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(0, 0, 30, 0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            "u Karly",
+                            style: TextStyle(
+                              fontSize: 30,
+                            ),
+                          )
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.location_on_sharp,
+                            size: 20,
+                          ),
+                          Text(
+                            "Brno",
+                            style: TextStyle(
+                              fontSize: 15,
+                            ),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(10),
+                        topRight: Radius.circular(10),
+                        bottomLeft: Radius.circular(10),
+                        bottomRight: Radius.circular(10)
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 5,
+                        blurRadius: 7,
+                        offset: Offset(0, 3), // changes position of shadow
+                      ),
+                    ],
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                    child: Column(
+                      children: [
+                        Row(
+                            children: [
+                              Text("Finlandia 2+1")
+                            ]
+                        ),
+                        Row(
+                            children: [
+                              Text("Finlandia 2+1")
+                            ]
+                        ),
+                        Row(
+                            children: [
+                              Text("Finlandia 2+1")
+                            ]
+                        ),
+                      ],
+                    ),
+                  )
+                )
+              ],
+            ),
+          )
       ),
     );
   }

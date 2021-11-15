@@ -1,6 +1,4 @@
 import 'package:drinkward/BarCardView.dart';
-import 'package:drinkward/register.dart';
-import 'package:drinkward/widget/common.dart';
 import 'package:flutter/material.dart';
 
 class BarsListView extends StatefulWidget {
@@ -23,7 +21,6 @@ class _BarsListView extends State<BarsListView> {
         backgroundColor: Colors.white,
         body: SafeArea(
           child: ListView(children: [
-            BarCardView(),
             BarCardView(),
             BarCardView(),
             BarCardView(),
