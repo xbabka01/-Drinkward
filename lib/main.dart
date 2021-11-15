@@ -1,3 +1,4 @@
+import 'package:drinkward/login.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -46,8 +47,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -64,8 +63,8 @@ class _MyHomePageState extends State<MyHomePage> {
               bottom: const TabBar(
                 tabs: [
                   Tab(icon: Icon(Icons.calendar_today_rounded)),
-                  Tab(icon: Icon(Icons.house_rounded )),
-                  Tab(icon: Icon(Icons.map_rounded )),
+                  Tab(icon: Icon(Icons.house_rounded)),
+                  Tab(icon: Icon(Icons.map_rounded)),
                 ],
               ),
               title: Row(children: <Widget>[
@@ -87,14 +86,19 @@ class _MyHomePageState extends State<MyHomePage> {
                   icon: const Icon(Icons.person_rounded),
                   alignment: Alignment.centerRight,
                   tooltip: 'Person profile',
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => LoginPage()),
+                    );
+                  },
                 ),
               ])),
           body: const TabBarView(
             children: [
               Icon(Icons.calendar_today_rounded),
-              Icon(Icons.house_rounded ),
-              Icon(Icons.map_rounded ),
+              Icon(Icons.house_rounded),
+              Icon(Icons.map_rounded),
             ],
           ),
         ),
