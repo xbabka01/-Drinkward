@@ -1,3 +1,6 @@
+import 'package:drinkward/AddEventView.dart';
+import 'package:drinkward/BarsListView.dart';
+import 'package:drinkward/EventsListView.dart';
 import 'package:drinkward/login.dart';
 import 'package:flutter/material.dart';
 
@@ -94,10 +97,35 @@ class _MyHomePageState extends State<MyHomePage> {
                   },
                 ),
               ])),
-          body: const TabBarView(
+          body: TabBarView(
             children: [
-              Icon(Icons.calendar_today_rounded),
-              Icon(Icons.house_rounded),
+              // Icon(Icons.calendar_today_rounded),
+              Stack(
+                children: <Widget>[
+                  EventsListView(),
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: Padding(
+                      padding: EdgeInsets.all(40),
+                      child: IconButton(
+                        tooltip: 'Add event',
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                              MaterialPageRoute(builder: (context) => AddEvent())
+                          );
+                        },
+                        icon: Icon(
+                          Icons.add_circle_outline_sharp,
+                          size: 70,
+                          color: Colors.blue,
+                        ),
+                      )
+                    )
+                  )
+                ],
+              ),
+              BarsListView(),
               Icon(Icons.map_rounded),
             ],
           ),
