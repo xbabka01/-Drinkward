@@ -3,8 +3,20 @@ import 'package:drinkward/BarsListView.dart';
 import 'package:drinkward/EventsListView.dart';
 import 'package:drinkward/login.dart';
 import 'package:flutter/material.dart';
+import 'package:postgres/postgres.dart';
+
+
+var connection = PostgreSQLConnection("ec2-52-209-246-87.eu-west-1.compute.amazonaws.com",
+    5432,
+    "d9o5rtu028946m",
+    username: "cohzowecdgnnae",
+    password: "8b02dd03e907d484f22e131a74b40c4d087cdc4a50f9f22bee4d02c6506e285d",
+    useSSL: true
+);
+
 
 void main() {
+
   runApp(MyApp());
 }
 
@@ -49,6 +61,18 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
+Future operation() async {
+
+  await connection.open();
+  List<List<dynamic>> results = await connection.query("SELECT name FROM public.\"Pubs\"");
+
+  for (final row in results) {
+    var name = row[0];
+    print(name);
+  }
+  print("Connected to DB");
+}
+
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
@@ -58,6 +82,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
+  operation();
     return MaterialApp(
       home: DefaultTabController(
         length: 3,
