@@ -5,7 +5,6 @@ import 'package:drinkward/login.dart';
 import 'package:flutter/material.dart';
 import 'package:postgres/postgres.dart';
 
-
 var connection = PostgreSQLConnection("ec2-52-209-246-87.eu-west-1.compute.amazonaws.com",
     5432,
     "d9o5rtu028946m",
@@ -14,9 +13,7 @@ var connection = PostgreSQLConnection("ec2-52-209-246-87.eu-west-1.compute.amazo
     useSSL: true
 );
 
-
 void main() {
-
   runApp(MyApp());
 }
 
