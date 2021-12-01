@@ -9,6 +9,11 @@ class BarCardView extends StatefulWidget {
 
 class _BarCardView extends State<BarCardView> {
 
+  //TODO_get from db
+  String _barName = "U Karly";
+  String _eventLoc = "Brno";
+  String _eventName = "Finlandia 2+1";
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -41,7 +46,7 @@ class _BarCardView extends State<BarCardView> {
                     children: [
                       Icon(
                         Icons.house_rounded,
-                        size: 70,
+                        size: 50.0,
                         color: Colors.blue,
                       ),
                     ],
@@ -56,7 +61,7 @@ class _BarCardView extends State<BarCardView> {
                       Row(
                         children: [
                           Text(
-                            "u Karly",
+                            "$_barName",
                             style: TextStyle(
                               fontSize: 30,
                             ),
@@ -70,7 +75,7 @@ class _BarCardView extends State<BarCardView> {
                             size: 20,
                           ),
                           Text(
-                            "Brno",
+                            "$_eventLoc",
                             style: TextStyle(
                               fontSize: 15,
                             ),
@@ -104,17 +109,18 @@ class _BarCardView extends State<BarCardView> {
                       children: [
                         Row(
                             children: [
-                              Text("Finlandia 2+1")
+                              // TODO: get all events of one bar from db
+                              Text('$_eventName')
                             ]
                         ),
                         Row(
                             children: [
-                              Text("Finlandia 2+1")
+                              Text('$_eventName')
                             ]
                         ),
                         Row(
                             children: [
-                              Text("Finlandia 2+1")
+                              Text('$_eventName')
                             ]
                         ),
                       ],
