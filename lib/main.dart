@@ -3,6 +3,7 @@ import 'package:drinkward/BarsListView.dart';
 import 'package:drinkward/EventsListView.dart';
 import 'package:drinkward/login.dart';
 import 'package:flutter/material.dart';
+import 'package:drinkward/MapView.dart';
 
 void main() {
   runApp(MyApp());
@@ -126,7 +127,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ],
               ),
               BarsListView(),
-              Icon(Icons.map_rounded),
+              MapView(),
             ],
           ),
         ),
