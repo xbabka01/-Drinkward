@@ -21,6 +21,28 @@ Widget textValueListenableBuilder(nofifier) {
   );
 }
 
+Widget passwordField(controller, visible, toogle, validator) {
+  return TextFormField(
+    controller: controller,
+    obscureText: !visible,
+    decoration: InputDecoration(
+      hintText: 'Password',
+      hintStyle: heading6.copyWith(color: textGrey),
+      suffixIcon: IconButton(
+        color: textGrey,
+        splashRadius: 1,
+        icon: Icon(visible
+            ? Icons.visibility_outlined
+            : Icons.visibility_off_outlined),
+        onPressed: toogle,
+      ),
+      border: OutlineInputBorder(
+        borderSide: BorderSide.none,
+      ),
+    ),
+  );
+}
+
 class ProfilePage extends StatefulWidget {
   @override
   _ProfilePageState createState() => _ProfilePageState();
@@ -35,7 +57,27 @@ class _ProfilePageState extends State<ProfilePage> {
   final _notifyEmail = ValueNotifier<String>("");
   final _notifyKarma = ValueNotifier<String>("");
 
-  bool showPasswordVisible = false;
+  bool oldPasswordVisible = false;
+  bool newPasswordVisible = false;
+  bool confirmPasswordVisible = false;
+
+  void toggleOldPassword() {
+    setState(() {
+      oldPasswordVisible = !oldPasswordVisible;
+    });
+  }
+
+  void toggleNewPassword() {
+    setState(() {
+      newPasswordVisible = !newPasswordVisible;
+    });
+  }
+
+  void toggleConfirmPassword() {
+    setState(() {
+      confirmPasswordVisible = !confirmPasswordVisible;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -115,16 +157,11 @@ class _ProfilePageState extends State<ProfilePage> {
                             color: textWhiteGrey,
                             borderRadius: BorderRadius.circular(14.0),
                           ),
-                          child: TextFormField(
-                            controller: oldPasswordController,
-                            decoration: InputDecoration(
-                              hintText: 'Type your old password',
-                              hintStyle: heading6.copyWith(color: textGrey),
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide.none,
-                              ),
-                            ),
-                          ),
+                          child: passwordField(
+                              oldPasswordController,
+                              oldPasswordVisible,
+                              toggleOldPassword,
+                              (value) {}),
                         ),
                         SizedBox(
                           height: 16,
@@ -138,21 +175,12 @@ class _ProfilePageState extends State<ProfilePage> {
                             color: textWhiteGrey,
                             borderRadius: BorderRadius.circular(14.0),
                           ),
-                          child: TextFormField(
-                            validator: (value) {
-                              if (!isPassword(value))
-                                return 'Password must contain at least 9 characters';
-                              return null;
-                            },
-                            controller: newPasswordController,
-                            decoration: InputDecoration(
-                              hintText: 'Type your new password',
-                              hintStyle: heading6.copyWith(color: textGrey),
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide.none,
-                              ),
-                            ),
-                          ),
+                          child: passwordField(newPasswordController,
+                              newPasswordVisible, toggleNewPassword, (value) {
+                            if (!isPassword(value))
+                              return 'Password must contain at least 9 characters';
+                            return null;
+                          }),
                         ),
                         SizedBox(
                           height: 16,
@@ -166,21 +194,16 @@ class _ProfilePageState extends State<ProfilePage> {
                             color: textWhiteGrey,
                             borderRadius: BorderRadius.circular(14.0),
                           ),
-                          child: TextFormField(
-                            validator: (value) {
+                          child: passwordField(
+                            confirmPasswordController,
+                            confirmPasswordVisible,
+                            toggleConfirmPassword,
+                            (value) {
                               if (newPasswordController.text !=
                                   confirmPasswordController.text)
                                 return 'Difference between passwords!';
                               return null;
                             },
-                            controller: confirmPasswordController,
-                            decoration: InputDecoration(
-                              hintText: 'Type your new password',
-                              hintStyle: heading6.copyWith(color: textGrey),
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide.none,
-                              ),
-                            ),
                           ),
                         ),
                       ],
