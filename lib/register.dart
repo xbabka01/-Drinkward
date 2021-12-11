@@ -1,12 +1,16 @@
 import 'package:drinkward/widget/common.dart';
 import 'package:flutter/material.dart';
 
+import 'misc.dart';
+
 class RegisterPage extends StatefulWidget {
   @override
   _RegisterPageState createState() => _RegisterPageState();
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  final _formKey = GlobalKey<FormState>();
+
   bool passwordVisible = false;
   bool passwordConfrimationVisible = false;
 
@@ -16,6 +20,10 @@ class _RegisterPageState extends State<RegisterPage> {
     });
   }
 
+  var emailController = TextEditingController();
+  var passwordController = TextEditingController();
+  var confirmPasswordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +32,7 @@ class _RegisterPageState extends State<RegisterPage> {
           child: ListView(children: [
             IconButton(
               padding:
-              EdgeInsets.only(left: 10, top: 20, right: 20, bottom: 10),
+                  EdgeInsets.only(left: 10, top: 20, right: 20, bottom: 10),
               alignment: Alignment.topRight,
               onPressed: () {
                 Navigator.pop(context);
@@ -52,6 +60,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     height: 48,
                   ),
                   Form(
+                    key: _formKey,
                     child: Column(
                       children: [
                         Container(
@@ -59,14 +68,16 @@ class _RegisterPageState extends State<RegisterPage> {
                             color: textWhiteGrey,
                             borderRadius: BorderRadius.circular(14.0),
                           ),
-                          child: TextFormField(
-                            decoration: InputDecoration(
-                              hintText: 'Email',
-                              hintStyle: heading6.copyWith(color: textGrey),
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide.none,
-                              ),
-                            ),
+                          child: customTextFormField(
+                            'Email',
+                            emailController,
+                            null,
+                            null,
+                            (value) {
+                              if (!isEmail(value))
+                                return 'Invalid email address!';
+                              return null;
+                            },
                           ),
                         ),
                         SizedBox(
@@ -77,23 +88,16 @@ class _RegisterPageState extends State<RegisterPage> {
                             color: textWhiteGrey,
                             borderRadius: BorderRadius.circular(14.0),
                           ),
-                          child: TextFormField(
-                            obscureText: !passwordVisible,
-                            decoration: InputDecoration(
-                              hintText: 'Password',
-                              hintStyle: heading6.copyWith(color: textGrey),
-                              suffixIcon: IconButton(
-                                color: textGrey,
-                                splashRadius: 1,
-                                icon: Icon(passwordVisible
-                                    ? Icons.visibility_outlined
-                                    : Icons.visibility_off_outlined),
-                                onPressed: togglePassword,
-                              ),
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide.none,
-                              ),
-                            ),
+                          child: customTextFormField(
+                            'Password',
+                            passwordController,
+                            passwordVisible,
+                            togglePassword,
+                            (value) {
+                              if (!isPassword(value))
+                                return 'Password must contain at least 9 characters';
+                              return null;
+                            },
                           ),
                         ),
                         SizedBox(
@@ -104,28 +108,22 @@ class _RegisterPageState extends State<RegisterPage> {
                             color: textWhiteGrey,
                             borderRadius: BorderRadius.circular(14.0),
                           ),
-                          child: TextFormField(
-                            obscureText: !passwordConfrimationVisible,
-                            decoration: InputDecoration(
-                              hintText: 'Password Confirmation',
-                              hintStyle: heading6.copyWith(color: textGrey),
-                              suffixIcon: IconButton(
-                                color: textGrey,
-                                splashRadius: 1,
-                                icon: Icon(passwordConfrimationVisible
-                                    ? Icons.visibility_outlined
-                                    : Icons.visibility_off_outlined),
-                                onPressed: () {
-                                  setState(() {
-                                    passwordConfrimationVisible =
-                                        !passwordConfrimationVisible;
-                                  });
-                                },
-                              ),
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide.none,
-                              ),
-                            ),
+                          child: customTextFormField(
+                            'Password Confirmation',
+                            confirmPasswordController,
+                            passwordConfrimationVisible,
+                            () {
+                              setState(() {
+                                passwordConfrimationVisible =
+                                    !passwordConfrimationVisible;
+                              });
+                            },
+                            (value) {
+                              if (passwordController.text !=
+                                  confirmPasswordController.text)
+                                return 'Difference between passwords!';
+                              return null;
+                            },
                           ),
                         ),
                       ],
@@ -137,10 +135,10 @@ class _RegisterPageState extends State<RegisterPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      CustomCheckbox(),
-                      SizedBox(
-                        width: 12,
-                      ),
+                      // CustomCheckbox(),
+                      // SizedBox(
+                      //   width: 12,
+                      // ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -161,9 +159,31 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   CustomPrimaryButton(
                     'Register',
-                    (){
-                      Navigator.pop(context);
-                      Navigator.pop(context);
+                    () {
+                      var valid = _formKey.currentState!.validate();
+                      if (!valid) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Error occurred ')),
+                        );
+                        return;
+                      }
+                      register(context, emailController.text,
+                              passwordController.text)
+                          .then((value) {
+                        Navigator.pop(context);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Registering sucseeded. Now login.'),
+                          ),
+                        );
+                        return;
+                      });
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Registering'),
+                        ),
+                      );
+                      return;
                     },
                   ),
                   SizedBox(

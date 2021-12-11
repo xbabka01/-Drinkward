@@ -3,45 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'misc.dart';
 
-Widget textValueListenableBuilder(nofifier) {
-  return ValueListenableBuilder<String>(
-    valueListenable: nofifier,
-    builder: (BuildContext context, String value, _) {
-      print("New value is '$value'");
-      return Text(
-        value,
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 19,
-          fontWeight: FontWeight.w500,
-        ),
-        textAlign: TextAlign.center,
-      );
-    },
-  );
-}
 
-Widget passwordField(controller, visible, toogle, validator) {
-  return TextFormField(
-    controller: controller,
-    obscureText: !visible,
-    decoration: InputDecoration(
-      hintText: 'Password',
-      hintStyle: heading6.copyWith(color: textGrey),
-      suffixIcon: IconButton(
-        color: textGrey,
-        splashRadius: 1,
-        icon: Icon(visible
-            ? Icons.visibility_outlined
-            : Icons.visibility_off_outlined),
-        onPressed: toogle,
-      ),
-      border: OutlineInputBorder(
-        borderSide: BorderSide.none,
-      ),
-    ),
-  );
-}
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -157,11 +119,12 @@ class _ProfilePageState extends State<ProfilePage> {
                             color: textWhiteGrey,
                             borderRadius: BorderRadius.circular(14.0),
                           ),
-                          child: passwordField(
+                          child: customTextFormField(
+                              'Type your old password',
                               oldPasswordController,
                               oldPasswordVisible,
                               toggleOldPassword,
-                              (value) {}),
+                              (value) => null),
                         ),
                         SizedBox(
                           height: 16,
@@ -175,8 +138,11 @@ class _ProfilePageState extends State<ProfilePage> {
                             color: textWhiteGrey,
                             borderRadius: BorderRadius.circular(14.0),
                           ),
-                          child: passwordField(newPasswordController,
-                              newPasswordVisible, toggleNewPassword, (value) {
+                          child: customTextFormField(
+                              'Type your new password',
+                              newPasswordController,
+                              newPasswordVisible,
+                              toggleNewPassword, (value) {
                             if (!isPassword(value))
                               return 'Password must contain at least 9 characters';
                             return null;
@@ -194,7 +160,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             color: textWhiteGrey,
                             borderRadius: BorderRadius.circular(14.0),
                           ),
-                          child: passwordField(
+                          child: customTextFormField(
+                            'Type your new password',
                             confirmPasswordController,
                             confirmPasswordVisible,
                             toggleConfirmPassword,

@@ -66,50 +66,32 @@ class _LoginPageState extends State<LoginPage> {
                             color: textWhiteGrey,
                             borderRadius: BorderRadius.circular(14.0),
                           ),
-                          child: TextFormField(
-                            controller: nameController,
-                            validator: (value) {
+                          child: customTextFormField(
+                            'Email',
+                            nameController,
+                            null,
+                            null,
+                            (value) {
                               if (!isEmail(value))
                                 return 'Invalid email address!';
                               return null;
                             },
-                            decoration: InputDecoration(
-                              hintText: 'Email',
-                              hintStyle: heading6.copyWith(color: textGrey),
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide.none,
-                              ),
-                            ),
                           ),
                         ),
                         SizedBox(
                           height: 32,
                         ),
                         Container(
-                          decoration: BoxDecoration(
-                            color: textWhiteGrey,
-                            borderRadius: BorderRadius.circular(14.0),
-                          ),
-                          child: TextFormField(
-                            controller: passwordController,
-                            obscureText: !passwordVisible,
-                            decoration: InputDecoration(
-                              hintText: 'Password',
-                              hintStyle: heading6.copyWith(color: textGrey),
-                              suffixIcon: IconButton(
-                                color: textGrey,
-                                splashRadius: 1,
-                                icon: Icon(passwordVisible
-                                    ? Icons.visibility_outlined
-                                    : Icons.visibility_off_outlined),
-                                onPressed: togglePassword,
-                              ),
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide.none,
-                              ),
+                            decoration: BoxDecoration(
+                              color: textWhiteGrey,
+                              borderRadius: BorderRadius.circular(14.0),
                             ),
-                          ),
-                        ),
+                            child: customTextFormField(
+                                'Password',
+                                passwordController,
+                                passwordVisible,
+                                togglePassword,
+                                (value) => null)),
                       ],
                     ),
                   ),
@@ -142,29 +124,10 @@ class _LoginPageState extends State<LoginPage> {
 
                       final name = nameController.text;
                       final password = passwordController.text;
-                      login(context, name, password).then((value) => Navigator.pop(context));
+                      login(context, name, password)
+                          .then((value) => Navigator.pop(context));
                     },
                   ),
-                  // SizedBox(
-                  //   height: 24,
-                  // ),
-                  // Center(
-                  //   child: Text(
-                  //     'OR',
-                  //     style: heading6.copyWith(color: textGrey),
-                  //   ),
-                  // ),
-                  // SizedBox(
-                  //   height: 24,
-                  // ),
-                  // CustomPrimaryButton(
-                  //   'Login with Google',
-                  //   () {
-                  //     Navigator.pop(context);
-                  //   },
-                  //   buttonColor: Color(0xfffbfbfb),
-                  //   textColor: textBlack,
-                  // ),
                   SizedBox(
                     height: 50,
                   ),

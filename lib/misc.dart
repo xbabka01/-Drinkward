@@ -1,3 +1,6 @@
+import 'package:drinkward/widget/common.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 bool isEmail(String? email) {
@@ -29,6 +32,8 @@ Future<bool> logout(var context) async {
   // todo
   var prefs = await SharedPreferences.getInstance();
   await prefs.setInt('token', 0);
+  await prefs.setString('email', '');
+  await prefs.setString('password', '');
 
   return true;
 }
@@ -59,7 +64,7 @@ Future<int> getKarma(var context) async {
   return prefs.getInt('karma') ?? 0;
 }
 
-Future<bool> changePassword(String old, String new_) async{
+Future<bool> changePassword(String old, String new_) async {
   // todo
   return false;
 }

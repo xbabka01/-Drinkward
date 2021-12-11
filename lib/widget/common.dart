@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class CustomCheckbox extends StatefulWidget {
@@ -26,10 +27,10 @@ class _CustomCheckboxState extends State<CustomCheckbox> {
         height: 20,
         child: isChecked
             ? Icon(
-          Icons.check,
-          size: 20,
-          color: Colors.white,
-        )
+                Icons.check,
+                size: 20,
+                color: Colors.white,
+              )
             : null,
       ),
     );
@@ -67,11 +68,12 @@ class CustomPrimaryButton extends StatelessWidget {
   final Color textColor;
   final GestureTapCallback? onTap;
 
-  CustomPrimaryButton(this.textValue,
-      this.onTap, {
-        this.buttonColor = Colors.blueAccent,
-        this.textColor = Colors.white,
-      });
+  CustomPrimaryButton(
+    this.textValue,
+    this.onTap, {
+    this.buttonColor = Colors.blueAccent,
+    this.textColor = Colors.white,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -100,4 +102,55 @@ class CustomPrimaryButton extends StatelessWidget {
       ),
     );
   }
+}
+
+TextFormField customTextFormField(
+  String hintText,
+  TextEditingController controller,
+  bool? visible,
+  void Function()? toogle,
+  FormFieldValidator<String>? validator,
+) {
+  return TextFormField(
+    controller: controller,
+    obscureText: visible == false,
+    validator: validator,
+    decoration: InputDecoration(
+      hintText: hintText,
+      hintStyle: heading6.copyWith(color: textGrey),
+      suffixIcon: visible != null
+          ? IconButton(
+              color: textGrey,
+              splashRadius: 1,
+              icon: Icon(visible == true
+                  ? Icons.visibility_outlined
+                  : Icons.visibility_off_outlined),
+              onPressed: toogle,
+            )
+          : null,
+      border: OutlineInputBorder(
+        borderSide: BorderSide.none,
+      ),
+    ),
+  );
+}
+
+ValueListenableBuilder<String> textValueListenableBuilder(
+  ValueListenable<String> nofifier,
+) {
+  return ValueListenableBuilder<String>(
+    valueListenable: nofifier,
+    builder: (BuildContext context, String value, _) {
+      print("New value is '$value'");
+      return Text(
+        value,
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 19,
+          fontWeight: FontWeight.w500,
+        ),
+        textAlign: TextAlign.center,
+      );
+    },
+  );
 }
