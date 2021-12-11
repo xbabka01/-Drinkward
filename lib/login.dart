@@ -10,6 +10,8 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   bool passwordVisible = false;
 
+  final _formKey = GlobalKey<FormState>();
+
   void togglePassword() {
     setState(() {
       passwordVisible = !passwordVisible;
@@ -52,6 +54,7 @@ class _LoginPageState extends State<LoginPage> {
                     height: 48,
                   ),
                   Form(
+                    key: _formKey,
                     child: Column(
                       children: [
                         Container(
@@ -60,6 +63,14 @@ class _LoginPageState extends State<LoginPage> {
                             borderRadius: BorderRadius.circular(14.0),
                           ),
                           child: TextFormField(
+                            validator: (value) {
+                              if (value == null || ! RegExp(
+                                  r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+                                  .hasMatch(value)){
+                                return  'Invalid email address!';
+                              }
+                              return null;
+                            },
                             decoration: InputDecoration(
                               hintText: 'Email',
                               hintStyle: heading6.copyWith(color: textGrey),
@@ -118,7 +129,14 @@ class _LoginPageState extends State<LoginPage> {
                   CustomPrimaryButton(
                     "Login",
                     () {
-                      Navigator.pop(context);
+                      var valid = _formKey.currentState!.validate();
+                      if (valid){
+                        Navigator.pop(context);
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Invalid input')),
+                        );
+                      }
                     },
                   ),
                   SizedBox(
