@@ -3,6 +3,8 @@ class User {
   String email;
   String password;
   int karma;
+
+  User(this.id, this.email, this.password, this.karma);
 }
 
 class Event {
@@ -10,17 +12,26 @@ class Event {
   DateTime startDate;
   DateTime endDate;
   String description;
+
+  Event(this.id, this.startDate, this.endDate, this.description);
 }
 
 class Pub {
   int id;
   String name;
-  int google_id;
+  int googleId;
   String city;
   String street;
-  int street_nunmber;
+  int streetNumber;
+
+  Pub(this.id, this.name, this.googleId, this.city, this.street,
+      this.streetNumber);
 }
 
+enum Rating{like, dislike}
+
 class Rated {
-  int value;
+  Rating value;
+
+  Rated(this.value);
 }
