@@ -2,7 +2,10 @@ import 'package:drinkward/AddEventView.dart';
 import 'package:drinkward/BarsListView.dart';
 import 'package:drinkward/EventsListView.dart';
 import 'package:drinkward/login.dart';
+import 'package:drinkward/profile.dart';
 import 'package:flutter/material.dart';
+
+import 'misc.dart';
 
 void main() {
   runApp(MyApp());
@@ -90,9 +93,24 @@ class _MyHomePageState extends State<MyHomePage> {
                   alignment: Alignment.centerRight,
                   tooltip: 'Person profile',
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => LoginPage()),
+                    isLogged(context).then(
+                      (result) {
+                        if (!result) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => LoginPage(),
+                            ),
+                          );
+                        } else {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ProfilePage(),
+                            ),
+                          );
+                        }
+                      },
                     );
                   },
                 ),
@@ -104,25 +122,23 @@ class _MyHomePageState extends State<MyHomePage> {
                 children: <Widget>[
                   EventsListView(),
                   Align(
-                    alignment: Alignment.bottomRight,
-                    child: Padding(
-                      padding: EdgeInsets.all(40),
-                      child: IconButton(
-                        tooltip: 'Add event',
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                              MaterialPageRoute(builder: (context) => AddEvent())
-                          );
-                        },
-                        icon: Icon(
-                          Icons.add_circle_outline_sharp,
-                          size: 70,
-                          color: Colors.blue,
-                        ),
-                      )
-                    )
-                  )
+                      alignment: Alignment.bottomRight,
+                      child: Padding(
+                          padding: EdgeInsets.all(40),
+                          child: IconButton(
+                            tooltip: 'Add event',
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => AddEvent()));
+                            },
+                            icon: Icon(
+                              Icons.add_circle_outline_sharp,
+                              size: 70,
+                              color: Colors.blue,
+                            ),
+                          )))
                 ],
               ),
               BarsListView(),

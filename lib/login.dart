@@ -2,6 +2,8 @@ import 'package:drinkward/register.dart';
 import 'package:drinkward/widget/common.dart';
 import 'package:flutter/material.dart';
 
+import 'misc.dart';
+
 class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -67,11 +69,8 @@ class _LoginPageState extends State<LoginPage> {
                           child: TextFormField(
                             controller: nameController,
                             validator: (value) {
-                              if (value == null ||
-                                  !RegExp(r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
-                                      .hasMatch(value)) {
+                              if (!isEmail(value))
                                 return 'Invalid email address!';
-                              }
                               return null;
                             },
                             decoration: InputDecoration(
@@ -141,10 +140,9 @@ class _LoginPageState extends State<LoginPage> {
                         return;
                       }
 
-                      // final name = nameController.text;
-                      // final password = passwordController.text;
-
-                      Navigator.pop(context);
+                      final name = nameController.text;
+                      final password = passwordController.text;
+                      login(context, name, password).then((value) => Navigator.pop(context));
                     },
                   ),
                   // SizedBox(
