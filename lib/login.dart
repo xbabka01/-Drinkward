@@ -11,6 +11,8 @@ class _LoginPageState extends State<LoginPage> {
   bool passwordVisible = false;
 
   final _formKey = GlobalKey<FormState>();
+  var nameController = TextEditingController();
+  var passwordController = TextEditingController();
 
   void togglePassword() {
     setState(() {
@@ -63,11 +65,12 @@ class _LoginPageState extends State<LoginPage> {
                             borderRadius: BorderRadius.circular(14.0),
                           ),
                           child: TextFormField(
+                            controller: nameController,
                             validator: (value) {
-                              if (value == null || ! RegExp(
-                                  r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
-                                  .hasMatch(value)){
-                                return  'Invalid email address!';
+                              if (value == null ||
+                                  !RegExp(r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+                                      .hasMatch(value)) {
+                                return 'Invalid email address!';
                               }
                               return null;
                             },
@@ -89,6 +92,7 @@ class _LoginPageState extends State<LoginPage> {
                             borderRadius: BorderRadius.circular(14.0),
                           ),
                           child: TextFormField(
+                            controller: passwordController,
                             obscureText: !passwordVisible,
                             decoration: InputDecoration(
                               hintText: 'Password',
@@ -130,13 +134,16 @@ class _LoginPageState extends State<LoginPage> {
                     "Login",
                     () {
                       var valid = _formKey.currentState!.validate();
-                      if (valid){
-                        Navigator.pop(context);
-                      } else {
+                      if (!valid) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(content: Text('Invalid input')),
                         );
                       }
+
+                      // final name = nameController.text;
+                      // final password = passwordController.text;
+
+                      Navigator.pop(context);
                     },
                   ),
                   SizedBox(
