@@ -138,6 +138,7 @@ class _LoginPageState extends State<LoginPage> {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(content: Text('Invalid input')),
                         );
+                        return;
                       }
 
                       // final name = nameController.text;
@@ -146,26 +147,26 @@ class _LoginPageState extends State<LoginPage> {
                       Navigator.pop(context);
                     },
                   ),
-                  SizedBox(
-                    height: 24,
-                  ),
-                  Center(
-                    child: Text(
-                      'OR',
-                      style: heading6.copyWith(color: textGrey),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 24,
-                  ),
-                  CustomPrimaryButton(
-                    'Login with Google',
-                    () {
-                      Navigator.pop(context);
-                    },
-                    buttonColor: Color(0xfffbfbfb),
-                    textColor: textBlack,
-                  ),
+                  // SizedBox(
+                  //   height: 24,
+                  // ),
+                  // Center(
+                  //   child: Text(
+                  //     'OR',
+                  //     style: heading6.copyWith(color: textGrey),
+                  //   ),
+                  // ),
+                  // SizedBox(
+                  //   height: 24,
+                  // ),
+                  // CustomPrimaryButton(
+                  //   'Login with Google',
+                  //   () {
+                  //     Navigator.pop(context);
+                  //   },
+                  //   buttonColor: Color(0xfffbfbfb),
+                  //   textColor: textBlack,
+                  // ),
                   SizedBox(
                     height: 50,
                   ),
