@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 
 import 'misc.dart';
 
-
-
 class ProfilePage extends StatefulWidget {
   @override
   _ProfilePageState createState() => _ProfilePageState();
@@ -61,14 +59,16 @@ class _ProfilePageState extends State<ProfilePage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Profile',
-                        style: heading2.copyWith(color: textBlack),
-                      ),
-                    ],
+                  Text(
+                    'Profile',
+                    style: heading2.copyWith(color: textBlack),
+                  ),
+                  Divider(
+                    height: 20,
+                    thickness: 1,
+                    indent: 0,
+                    endIndent: 0,
+                    color: Colors.black,
                   ),
                   SizedBox(
                     height: 16,
@@ -77,7 +77,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Email:',
+                        'Email:   ',
                         style: heading5.copyWith(color: textBlack),
                       ),
                       textValueListenableBuilder(_notifyEmail),
@@ -89,7 +89,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   Row(
                     children: [
                       Text(
-                        'Karma:',
+                        'Karma: ',
                         style: heading5.copyWith(color: textBlack),
                       ),
                       textValueListenableBuilder(_notifyKarma),
@@ -106,6 +106,13 @@ class _ProfilePageState extends State<ProfilePage> {
                         Text(
                           'Change password',
                           style: heading2.copyWith(color: textBlack),
+                        ),
+                        Divider(
+                          height: 20,
+                          thickness: 1,
+                          indent: 0,
+                          endIndent: 0,
+                          color: Colors.black,
                         ),
                         SizedBox(
                           height: 16,
@@ -199,6 +206,13 @@ class _ProfilePageState extends State<ProfilePage> {
                   SizedBox(
                     height: 24,
                   ),
+                  Divider(
+                    height: 20,
+                    thickness: 1,
+                    indent: 0,
+                    endIndent: 0,
+                    color: Colors.black,
+                  ),
                   SizedBox(
                     height: 24,
                   ),
@@ -208,6 +222,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       logout(context).then((value) => Navigator.pop(context));
                     },
                     buttonColor: Colors.red,
+                  ),
+                  SizedBox(
+                    height: 24,
                   ),
                 ],
               ),

@@ -144,12 +144,8 @@ ValueListenableBuilder<String> textValueListenableBuilder(
       print("New value is '$value'");
       return Text(
         value,
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 19,
-          fontWeight: FontWeight.w500,
-        ),
-        textAlign: TextAlign.center,
+        style: heading6.copyWith(color: textGrey),
+        textAlign: TextAlign.left,
       );
     },
   );
