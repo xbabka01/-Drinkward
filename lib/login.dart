@@ -2,6 +2,8 @@ import 'package:drinkward/register.dart';
 import 'package:drinkward/widget/common.dart';
 import 'package:flutter/material.dart';
 
+import 'misc.dart';
+
 class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -9,6 +11,10 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   bool passwordVisible = false;
+
+  final _formKey = GlobalKey<FormState>();
+  var nameController = TextEditingController();
+  var passwordController = TextEditingController();
 
   void togglePassword() {
     setState(() {
@@ -36,22 +42,15 @@ class _LoginPageState extends State<LoginPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Login',
-                        style: heading2.copyWith(color: textBlack),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                    ],
+                  Text(
+                    'Login',
+                    style: heading2.copyWith(color: textBlack),
                   ),
                   SizedBox(
                     height: 48,
                   ),
                   Form(
+                    key: _formKey,
                     child: Column(
                       children: [
                         Container(
@@ -59,87 +58,67 @@ class _LoginPageState extends State<LoginPage> {
                             color: textWhiteGrey,
                             borderRadius: BorderRadius.circular(14.0),
                           ),
-                          child: TextFormField(
-                            decoration: InputDecoration(
-                              hintText: 'Email',
-                              hintStyle: heading6.copyWith(color: textGrey),
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide.none,
-                              ),
-                            ),
+                          child: customTextFormField(
+                            'Email',
+                            nameController,
+                            null,
+                            null,
+                            (value) {
+                              if (!isEmail(value))
+                                return 'Invalid email address!';
+                              return null;
+                            },
                           ),
                         ),
                         SizedBox(
                           height: 32,
                         ),
                         Container(
-                          decoration: BoxDecoration(
-                            color: textWhiteGrey,
-                            borderRadius: BorderRadius.circular(14.0),
-                          ),
-                          child: TextFormField(
-                            obscureText: !passwordVisible,
-                            decoration: InputDecoration(
-                              hintText: 'Password',
-                              hintStyle: heading6.copyWith(color: textGrey),
-                              suffixIcon: IconButton(
-                                color: textGrey,
-                                splashRadius: 1,
-                                icon: Icon(passwordVisible
-                                    ? Icons.visibility_outlined
-                                    : Icons.visibility_off_outlined),
-                                onPressed: togglePassword,
-                              ),
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide.none,
-                              ),
+                            decoration: BoxDecoration(
+                              color: textWhiteGrey,
+                              borderRadius: BorderRadius.circular(14.0),
                             ),
-                          ),
-                        ),
+                            child: customTextFormField(
+                                'Password',
+                                passwordController,
+                                passwordVisible,
+                                togglePassword,
+                                (value) => null)),
                       ],
                     ),
                   ),
-                  SizedBox(
-                    height: 32,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      CustomCheckbox(),
-                      SizedBox(
-                        width: 12,
-                      ),
-                      Text('Remember me', style: regular16pt),
-                    ],
-                  ),
+                  // SizedBox(
+                  //   height: 32,
+                  // ),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.start,
+                  //   children: [
+                  //     CustomCheckbox(),
+                  //     SizedBox(
+                  //       width: 12,
+                  //     ),
+                  //     Text('Remember me', style: regular16pt),
+                  //   ],
+                  // ),
                   SizedBox(
                     height: 32,
                   ),
                   CustomPrimaryButton(
                     "Login",
                     () {
-                      Navigator.pop(context);
+                      var valid = _formKey.currentState!.validate();
+                      if (!valid) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Invalid input')),
+                        );
+                        return;
+                      }
+
+                      final name = nameController.text;
+                      final password = passwordController.text;
+                      login(context, name, password)
+                          .then((value) => Navigator.pop(context));
                     },
-                  ),
-                  SizedBox(
-                    height: 24,
-                  ),
-                  Center(
-                    child: Text(
-                      'OR',
-                      style: heading6.copyWith(color: textGrey),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 24,
-                  ),
-                  CustomPrimaryButton(
-                    'Login with Google',
-                    () {
-                      Navigator.pop(context);
-                    },
-                    buttonColor: Color(0xfffbfbfb),
-                    textColor: textBlack,
                   ),
                   SizedBox(
                     height: 50,

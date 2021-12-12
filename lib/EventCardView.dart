@@ -17,9 +17,6 @@ class _EventCardView extends State<EventCardView> {
   //   });
   // }
 
-
-
-
   @override
   Widget build(BuildContext context) {
     return Center(
