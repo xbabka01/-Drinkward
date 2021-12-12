@@ -42,17 +42,9 @@ class _LoginPageState extends State<LoginPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Login',
-                        style: heading2.copyWith(color: textBlack),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                    ],
+                  Text(
+                    'Login',
+                    style: heading2.copyWith(color: textBlack),
                   ),
                   SizedBox(
                     height: 48,
@@ -95,19 +87,19 @@ class _LoginPageState extends State<LoginPage> {
                       ],
                     ),
                   ),
-                  SizedBox(
-                    height: 32,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      CustomCheckbox(),
-                      SizedBox(
-                        width: 12,
-                      ),
-                      Text('Remember me', style: regular16pt),
-                    ],
-                  ),
+                  // SizedBox(
+                  //   height: 32,
+                  // ),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.start,
+                  //   children: [
+                  //     CustomCheckbox(),
+                  //     SizedBox(
+                  //       width: 12,
+                  //     ),
+                  //     Text('Remember me', style: regular16pt),
+                  //   ],
+                  // ),
                   SizedBox(
                     height: 32,
                   ),

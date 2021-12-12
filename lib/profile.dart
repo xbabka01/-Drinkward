@@ -63,15 +63,8 @@ class _ProfilePageState extends State<ProfilePage> {
                     'Profile',
                     style: heading2.copyWith(color: textBlack),
                   ),
-                  Divider(
-                    height: 20,
-                    thickness: 1,
-                    indent: 0,
-                    endIndent: 0,
-                    color: Colors.black,
-                  ),
                   SizedBox(
-                    height: 16,
+                    height: 32,
                   ),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -107,15 +100,8 @@ class _ProfilePageState extends State<ProfilePage> {
                           'Change password',
                           style: heading2.copyWith(color: textBlack),
                         ),
-                        Divider(
-                          height: 20,
-                          thickness: 1,
-                          indent: 0,
-                          endIndent: 0,
-                          color: Colors.black,
-                        ),
                         SizedBox(
-                          height: 16,
+                          height: 32,
                         ),
                         Text(
                           'Old password:',
@@ -204,17 +190,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     },
                   ),
                   SizedBox(
-                    height: 24,
-                  ),
-                  Divider(
-                    height: 20,
-                    thickness: 1,
-                    indent: 0,
-                    endIndent: 0,
-                    color: Colors.black,
-                  ),
-                  SizedBox(
-                    height: 24,
+                    height: 48,
                   ),
                   CustomPrimaryButton(
                     "Logout",

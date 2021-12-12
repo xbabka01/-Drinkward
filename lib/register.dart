@@ -44,17 +44,9 @@ class _RegisterPageState extends State<RegisterPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Register',
-                        style: heading2.copyWith(color: textBlack),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                    ],
+                  Text(
+                    'Register',
+                    style: heading2.copyWith(color: textBlack),
                   ),
                   SizedBox(
                     height: 48,
