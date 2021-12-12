@@ -2,6 +2,7 @@ import 'package:drinkward/AddEventView.dart';
 import 'package:drinkward/BarsListView.dart';
 import 'package:drinkward/EventsListView.dart';
 import 'package:drinkward/login.dart';
+import 'package:drinkward/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:postgres/postgres.dart';
 
@@ -12,6 +13,8 @@ var connection = PostgreSQLConnection("ec2-52-209-246-87.eu-west-1.compute.amazo
     password: "8b02dd03e907d484f22e131a74b40c4d087cdc4a50f9f22bee4d02c6506e285d",
     useSSL: true
 );
+
+import 'misc.dart';
 
 void main() {
   runApp(MyApp());
@@ -112,9 +115,24 @@ class _MyHomePageState extends State<MyHomePage> {
                   alignment: Alignment.centerRight,
                   tooltip: 'Person profile',
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => LoginPage()),
+                    isLogged(context).then(
+                      (result) {
+                        if (!result) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => LoginPage(),
+                            ),
+                          );
+                        } else {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ProfilePage(),
+                            ),
+                          );
+                        }
+                      },
                     );
                   },
                 ),
@@ -126,25 +144,23 @@ class _MyHomePageState extends State<MyHomePage> {
                 children: <Widget>[
                   EventsListView(),
                   Align(
-                    alignment: Alignment.bottomRight,
-                    child: Padding(
-                      padding: EdgeInsets.all(40),
-                      child: IconButton(
-                        tooltip: 'Add event',
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                              MaterialPageRoute(builder: (context) => AddEvent())
-                          );
-                        },
-                        icon: Icon(
-                          Icons.add_circle_outline_sharp,
-                          size: 70,
-                          color: Colors.blue,
-                        ),
-                      )
-                    )
-                  )
+                      alignment: Alignment.bottomRight,
+                      child: Padding(
+                          padding: EdgeInsets.all(40),
+                          child: IconButton(
+                            tooltip: 'Add event',
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => AddEvent()));
+                            },
+                            icon: Icon(
+                              Icons.add_circle_outline_sharp,
+                              size: 70,
+                              color: Colors.blue,
+                            ),
+                          )))
                 ],
               ),
               BarsListView(),
