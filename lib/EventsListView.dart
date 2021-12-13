@@ -21,6 +21,7 @@ class _EventsListView extends State<EventsListView> {
         backgroundColor: Colors.white,
         body: SafeArea(
           child: ListView(children: [
+            //TODO: get event list
             EventCardView(),
             EventCardView(),
             EventCardView(),

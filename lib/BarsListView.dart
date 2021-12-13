@@ -20,6 +20,7 @@ class _BarsListView extends State<BarsListView> {
     return Scaffold(
         backgroundColor: Colors.white,
         body: SafeArea(
+          // TODO: get list of all cards
           child: ListView(children: [
             BarCardView(),
             BarCardView(),
