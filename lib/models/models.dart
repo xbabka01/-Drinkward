@@ -12,8 +12,9 @@ class Event {
   DateTime startDate;
   DateTime endDate;
   String description;
+  List<int> pub;
 
-  Event(this.id, this.startDate, this.endDate, this.description);
+  Event(this.id, this.startDate, this.endDate, this.description, this.pub);
 }
 
 class Pub {
