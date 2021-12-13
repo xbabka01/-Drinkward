@@ -5,16 +5,8 @@ import 'package:drinkward/login.dart';
 import 'package:drinkward/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:drinkward/MapView.dart';
-import 'package:postgres/postgres.dart';
 import 'misc.dart';
-
-var connection = PostgreSQLConnection("ec2-52-209-246-87.eu-west-1.compute.amazonaws.com",
-    5432,
-    "d9o5rtu028946m",
-    username: "cohzowecdgnnae",
-    password: "8b02dd03e907d484f22e131a74b40c4d087cdc4a50f9f22bee4d02c6506e285d",
-    useSSL: true
-);
+import 'package:drinkward/globals.dart';
 
 void main() {
   runApp(MyApp());
@@ -64,7 +56,7 @@ class MyHomePage extends StatefulWidget {
 Future operation() async {
 
   await connection.open();
-  List<List<dynamic>> results = await connection.query("SELECT name FROM public.\"Pubs\"");
+  List<List<dynamic>> results = await connection.query("SELECT about FROM public.\"Events\"");
 
   for (final row in results) {
     var name = row[0];

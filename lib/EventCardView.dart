@@ -1,3 +1,6 @@
+import 'package:drinkward/EventDetail.dart';
+import 'package:drinkward/register.dart';
+import 'package:drinkward/widget/common.dart';
 import 'package:flutter/material.dart';
 
 class EventCardView extends StatefulWidget {

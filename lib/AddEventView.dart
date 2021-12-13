@@ -1,5 +1,9 @@
+import 'package:drinkward/DateTimePicker.dart';
+import 'package:drinkward/globals.dart';
 import 'package:drinkward/widget/common.dart';
 import 'package:flutter/material.dart';
+import 'package:postgres/postgres.dart';
+
 
 class AddEvent extends StatefulWidget {
   @override
@@ -7,13 +11,59 @@ class AddEvent extends StatefulWidget {
 }
 
 class _AddEvent extends State<AddEvent> {
-  // bool passwordVisible = false;
+  DateTime newStartDate = DateTime.now();
+  DateTime newEndDate = DateTime.now();
+  String newDescription = "";
+  int? addToPub;
+  List<String> pubs = [];
 
-  // void togglePassword() {
-  //   setState(() {
-  //     passwordVisible = !passwordVisible;
-  //   });
-  // }
+  @override
+  void initState() {
+    super.initState();
+    this.getPubs().then((List<String> result){
+      setState(() {
+        pubs = result;
+      });
+    });
+  }
+
+  changeStartDate(newStartDate) {
+    setState(() {
+      this.newStartDate = newStartDate;
+    });
+  }
+  changeEndDate(newEndDate) {
+    setState(() {
+      this.newEndDate = newEndDate;
+    });
+  }
+
+  Future<List<String>> getPubs() async {
+    // TODO google maps api?
+    List<List<dynamic>> results = await connection.query("SELECT name FROM public.\"Pubs\"");
+    List<String> pubs = [];
+    for (final row in results) {
+      pubs.add(row[0]);
+    }
+    return pubs;
+  }
+
+  Future addEvent() async {
+    String quer = "INSERT INTO public.\"Events\" (\"from\", \"to\", \"about\", \"pub_id\") VALUES (\'" + newStartDate.toString().split(" ")[0] + "\', \'" + newEndDate.toString().split(" ")[0] + "\', \'" + newDescription + "\', \'" + addToPub.toString() + "\')";
+    List<List<dynamic>> _ = await connection.query(quer);
+  }
+
+  int findPubIndex(String selected) {
+    int i = 0;
+    for (final item in pubs) {
+        if (item == selected) {
+          return i;
+        }
+        i++;
+    }
+    return -1;
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -60,80 +110,60 @@ class _AddEvent extends State<AddEvent> {
                           ),
                           child: TextFormField(
                             decoration: InputDecoration(
-                              hintText: '*Event name',
+                              hintText: '*Event description',
                               hintStyle: heading6.copyWith(color: textGrey),
                               border: OutlineInputBorder(
                                 borderSide: BorderSide.none,
                               ),
                             ),
+                            onChanged: (String? value) {
+                              if (value != null) {
+                                newDescription = value;
+                              }
+                            },
                           ),
                         ),
                         SizedBox(
                           height: 32,
                         ),
-                        Container(
-                          decoration: BoxDecoration(
-                            color: textWhiteGrey,
-                            borderRadius: BorderRadius.circular(14.0),
+                          Autocomplete<String>(
+                            optionsBuilder: (TextEditingValue textEditingValue) {
+                              if (textEditingValue.text == '') {
+                                return const Iterable<String>.empty();
+                              }
+                              return pubs.where((String option) {
+                                return option.toLowerCase().contains(textEditingValue.text.toLowerCase());
+                              });
+                            },
+                            onSelected: (String selection) {
+                              debugPrint('You just selected $selection');
+                              addToPub = findPubIndex(selection);
+                            },
                           ),
-                          child: TextFormField(
-                            decoration: InputDecoration(
-                              hintText: '*City',
-                              hintStyle: heading6.copyWith(color: textGrey),
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide.none,
-                              ),
-                            ),
-                          ),
-                        ),
                         SizedBox(
                           height: 32,
                         ),
-                        Container(
-                          decoration: BoxDecoration(
-                            color: textWhiteGrey,
-                            borderRadius: BorderRadius.circular(14.0),
-                          ),
-                          child: TextFormField(
-                            decoration: InputDecoration(
-                              hintText: '*Event start date',
-                              hintStyle: heading6.copyWith(color: textGrey),
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide.none,
-                              ),
-                            ),
-                          ),
+                        CustomDateTimePicker(
+                          pickedDateTime: newStartDate,
+                          text: '*Event start date: ',
+                          callback: changeStartDate,
+                        ),
+                        CustomDateTimePicker(
+                          pickedDateTime: newEndDate,
+                          text: '*Event end date: ',
+                          callback: changeEndDate,
                         ),
                         SizedBox(
-                          height: 32,
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                            color: textWhiteGrey,
-                            borderRadius: BorderRadius.circular(14.0),
-                          ),
-                          child: TextFormField(
-                            decoration: InputDecoration(
-                              hintText: '*Event end date',
-                              hintStyle: heading6.copyWith(color: textGrey),
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide.none,
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 32,
+                          height: 25,
                         ),
                       ],
                     ),
                   ),
-                  SizedBox(
-                    height: 32,
-                  ),
                   CustomPrimaryButton(
                     "Add",
                         () {
+                      print("adding");
+                      addEvent();
                       Navigator.pop(context);
                     },
                   ),
@@ -144,6 +174,7 @@ class _AddEvent extends State<AddEvent> {
               ),
             ),
           ]),
-        ));
+        )
+    );
   }
 }
