@@ -1,9 +1,7 @@
 import 'package:drinkward/DateTimePicker.dart';
-import 'package:drinkward/globals.dart';
 import 'package:drinkward/widget/common.dart';
 import 'package:flutter/material.dart';
 import 'package:postgres/postgres.dart';
-
 
 class AddEvent extends StatefulWidget {
   @override
@@ -14,8 +12,16 @@ class _AddEvent extends State<AddEvent> {
   DateTime newStartDate = DateTime.now();
   DateTime newEndDate = DateTime.now();
   String newDescription = "";
+  String name = "";
   int? addToPub;
   List<String> pubs = [];
+  var connection = PostgreSQLConnection("ec2-52-209-246-87.eu-west-1.compute.amazonaws.com",
+      5432,
+      "d9o5rtu028946m",
+      username: "cohzowecdgnnae",
+      password: "8b02dd03e907d484f22e131a74b40c4d087cdc4a50f9f22bee4d02c6506e285d",
+      useSSL: true
+  );
 
   @override
   void initState() {
@@ -48,9 +54,37 @@ class _AddEvent extends State<AddEvent> {
     return pubs;
   }
 
-  Future addEvent() async {
-    String quer = "INSERT INTO public.\"Events\" (\"from\", \"to\", \"about\", \"pub_id\") VALUES (\'" + newStartDate.toString().split(" ")[0] + "\', \'" + newEndDate.toString().split(" ")[0] + "\', \'" + newDescription + "\', \'" + addToPub.toString() + "\')";
-    List<List<dynamic>> _ = await connection.query(quer);
+  Future<bool> addEvent() async {
+    print("search pub");
+    List<List<dynamic>> results = await connection.query("SELECT id FROM public.\"Pubs\" WHERE google_id = \'" + "jhkjk21321jhhgjh" + "\'");
+    if (results.isEmpty || results[0].isEmpty) {
+      print("empty pub");
+      // TODO poloha a ostatne
+      // TODO addToPub
+      List<dynamic> _ = await connection.query("INSERT INTO public.\"Pubs\" (google_id) VALUES (\'" + "jhkjk21321jhhgjh" + "\')");
+      print("Inserted new pub");
+      List<dynamic> pubID = await connection.query("SELECT id FROM public.\"Pubs\" WHERE google_id = \'" + addToPub.toString() + "\'");
+      print("new pub id");
+      String quer = "INSERT INTO public.\"Events\" (\"from\", \"to\", \"about\", \"name\") VALUES (\'" + newStartDate.toString().split(" ")[0] + "\', \'" + newEndDate.toString().split(" ")[0] + "\', \'" + newDescription + "\', \'" + name + "\')";
+      List<List<dynamic>> s = await connection.query(quer);
+      print("added event");
+      List<dynamic> eventID = await connection.query("SELECT MAX(id) FROM public.\"Events\"");
+      print("new event id");
+      List<dynamic> ss = await connection.query("INSERT INTO public.\"EventsPubs\" (pubs_id, events_id) VALUES (\'" + pubID.toString() + "\', \'" + eventID.toString() + "\')");
+      print("inserted relation");
+    } else {
+      print("parsing pub id");
+      String quer = "INSERT INTO public.\"Events\" (\"from\", \"to\", \"about\", \"name\") VALUES (\'" + newStartDate.toString().split(" ")[0] + "\', \'" + newEndDate.toString().split(" ")[0] + "\', \'" + newDescription + "\', \'" + name + "\')";
+      List<List<dynamic>> _ = await connection.query(quer);
+      List<dynamic> eventID = await connection.query("SELECT MAX(id) FROM public.\"Events\"");
+      print("new event id");
+      int val = results[0][0];
+      print(val);
+      print(eventID[0][0].toString());
+      List<dynamic> ss = await connection.query("INSERT INTO public.\"EventsPubs\" (pubs_id, events_id) VALUES (\'" + val.toString() + "\', \'" + eventID[0][0].toString() + "\')");
+      print("inserted relation");
+    }
+    return true;
   }
 
   int findPubIndex(String selected) {
@@ -110,7 +144,30 @@ class _AddEvent extends State<AddEvent> {
                           ),
                           child: TextFormField(
                             decoration: InputDecoration(
-                              hintText: '*Event description',
+                              hintText: '*Event Name',
+                              hintStyle: heading6.copyWith(color: textGrey),
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide.none,
+                              ),
+                            ),
+                            onChanged: (String? value) {
+                              if (value != null) {
+                                name = value;
+                              }
+                            },
+                          ),
+                        ),
+                        SizedBox(
+                          height: 32,
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                            color: textWhiteGrey,
+                            borderRadius: BorderRadius.circular(14.0),
+                          ),
+                          child: TextFormField(
+                            decoration: InputDecoration(
+                              hintText: 'Event description',
                               hintStyle: heading6.copyWith(color: textGrey),
                               border: OutlineInputBorder(
                                 borderSide: BorderSide.none,
@@ -126,7 +183,19 @@ class _AddEvent extends State<AddEvent> {
                         SizedBox(
                           height: 32,
                         ),
-                          Autocomplete<String>(
+                        Row(
+                          children: [
+                            Text("*Pub name:"),
+                            SizedBox(),
+                          ],
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                            color: textWhiteGrey,
+                            borderRadius: BorderRadius.circular(14.0),
+                          ),
+                          child: Autocomplete<String>(
+                            // TODO delete on tap
                             optionsBuilder: (TextEditingValue textEditingValue) {
                               if (textEditingValue.text == '') {
                                 return const Iterable<String>.empty();
@@ -136,10 +205,10 @@ class _AddEvent extends State<AddEvent> {
                               });
                             },
                             onSelected: (String selection) {
-                              debugPrint('You just selected $selection');
                               addToPub = findPubIndex(selection);
                             },
                           ),
+                        ),
                         SizedBox(
                           height: 32,
                         ),
@@ -162,7 +231,6 @@ class _AddEvent extends State<AddEvent> {
                   CustomPrimaryButton(
                     "Add",
                         () {
-                      print("adding");
                       addEvent();
                       Navigator.pop(context);
                     },
