@@ -63,7 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
   );
 
   Future operation() async {
-
+/*
     await connection.open();
     List<List<dynamic>> results = await connection.query("SELECT about FROM public.\"Events\"");
 
@@ -71,7 +71,7 @@ class _MyHomePageState extends State<MyHomePage> {
       var name = row[0];
       print(name);
     }
-    print("Connected to DB");
+    print("Connected to DB");*/
   }
 
   @override
@@ -82,7 +82,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-  operation();
+    operation();
     return MaterialApp(
       home: DefaultTabController(
         length: 3,
@@ -107,7 +107,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         border: InputBorder.none,
                         icon: Icon(Icons.search),
                         contentPadding:
-                            EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+                        EdgeInsets.symmetric(horizontal: 5, vertical: 1),
                       ),
                     )),
                 new IconButton(
@@ -116,7 +116,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   tooltip: 'Person profile',
                   onPressed: () {
                     isLogged(context).then(
-                      (result) {
+                          (result) {
                         if (!result) {
                           Navigator.push(
                             context,
