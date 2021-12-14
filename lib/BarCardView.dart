@@ -1,16 +1,26 @@
-import 'package:drinkward/register.dart';
-import 'package:drinkward/widget/common.dart';
 import 'package:flutter/material.dart';
+import 'dart:math';
+
+String p1 = "";
+String p2 = "";
 
 class BarCardView extends StatefulWidget {
+  BarCardView(String param1, String param2) {
+    p1 = param1;
+    p2 = param2;
+  }
   @override
   _BarCardView createState() => _BarCardView();
 }
 
 class _BarCardView extends State<BarCardView> {
-
   @override
   Widget build(BuildContext context) {
+    Random random = new Random();
+    var rng1 = random.nextInt(10) + 3;
+    var rng2 = random.nextInt(10) + 2;
+    var rng3 = random.nextInt(10) + 1;
+
     return Center(
       widthFactor: double.infinity,
       child: Card(
@@ -56,7 +66,7 @@ class _BarCardView extends State<BarCardView> {
                       Row(
                         children: [
                           Text(
-                            "u Karly",
+                            p1,
                             style: TextStyle(
                               fontSize: 30,
                             ),
@@ -70,7 +80,7 @@ class _BarCardView extends State<BarCardView> {
                             size: 20,
                           ),
                           Text(
-                            "Brno",
+                            p2,
                             style: TextStyle(
                               fontSize: 15,
                             ),
@@ -104,17 +114,17 @@ class _BarCardView extends State<BarCardView> {
                       children: [
                         Row(
                             children: [
-                              Text("Finlandia 2+1")
+                              Text("Finlandia $rng1"),
                             ]
                         ),
                         Row(
                             children: [
-                              Text("Finlandia 2+1")
+                              Text("Rum $rng2"),
                             ]
                         ),
                         Row(
                             children: [
-                              Text("Finlandia 2+1")
+                              Text("Absinth $rng3"),
                             ]
                         ),
                       ],
