@@ -161,15 +161,25 @@ class _RegisterPageState extends State<RegisterPage> {
                       }
                       register(context, emailController.text,
                               passwordController.text)
-                          .then((value) {
-                        Navigator.pop(context);
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Registering sucseeded. Now login.'),
-                          ),
-                        );
-                        return;
-                      });
+                          .then(
+                        (value) {
+                          if (value) {
+                            Navigator.pop(context);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content:
+                                    Text('Registering sucseeded. Now login.'),
+                              ),
+                            );
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Failed to register.'),
+                              ),
+                            );
+                          }
+                        },
+                      );
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                           content: Text('Registering'),

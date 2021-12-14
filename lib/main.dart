@@ -8,6 +8,7 @@ import 'misc.dart';
 import 'package:drinkward/MapView.dart';
 import 'package:postgres/postgres.dart';
 
+
 void main() {
   runApp(MyApp());
 }
@@ -63,16 +64,17 @@ class _MyHomePageState extends State<MyHomePage> {
   );
 
   Future operation() async {
-/*
-    await connection.open();
-    List<List<dynamic>> results = await connection.query("SELECT about FROM public.\"Events\"");
 
-    for (final row in results) {
-      var name = row[0];
-      print(name);
-    }
-    print("Connected to DB");*/
-  }
+  // await connection.open();
+  // List<List<dynamic>> results = await connection.query("SELECT about FROM public.\"Events\"");
+  //
+  // for (final row in results) {
+  //   var name = row[0];
+  //   print(name);
+  // }
+  // print("Connected to DB");
+}
+
 
   @override
   Widget build(BuildContext context) {
