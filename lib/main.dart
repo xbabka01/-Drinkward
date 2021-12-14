@@ -8,6 +8,7 @@ import 'misc.dart';
 import 'package:drinkward/MapView.dart';
 import 'package:postgres/postgres.dart';
 
+
 void main() {
   runApp(MyApp());
 }
@@ -57,23 +58,22 @@ class _MyHomePageState extends State<MyHomePage> {
   var connection = PostgreSQLConnection("ec2-52-209-246-87.eu-west-1.compute.amazonaws.com",
       5432,
       "d9o5rtu028946m",
-      username: "cohzowecdgnnae",
+      username: "cohzowecdgnnae",`
       password: "8b02dd03e907d484f22e131a74b40c4d087cdc4a50f9f22bee4d02c6506e285d",
       useSSL: true
   );
 
   Future operation() async {
 
-    await connection.open();
-    List<List<dynamic>> results = await connection.query("SELECT about FROM public.\"Events\"");
-
-    for (final row in results) {
-      var name = row[0];
-      print(name);
-    }
-    print("Connected to DB");
-    connection.close();
-  }
+  // await connection.open();
+  // List<List<dynamic>> results = await connection.query("SELECT about FROM public.\"Events\"");
+  //
+  // for (final row in results) {
+  //   var name = row[0];
+  //   print(name);
+  // }
+  // print("Connected to DB");
+}
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-  operation();
+    operation();
     return MaterialApp(
       home: DefaultTabController(
         length: 3,
@@ -108,7 +108,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         border: InputBorder.none,
                         icon: Icon(Icons.search),
                         contentPadding:
-                            EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+                        EdgeInsets.symmetric(horizontal: 5, vertical: 1),
                       ),
                     )),
                 new IconButton(
@@ -117,7 +117,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   tooltip: 'Person profile',
                   onPressed: () {
                     isLogged(context).then(
-                      (result) {
+                          (result) {
                         if (!result) {
                           Navigator.push(
                             context,

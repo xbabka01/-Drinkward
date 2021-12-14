@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'BarDetailView.dart';
 
 class BarCardView extends StatefulWidget {
   @override
@@ -7,7 +8,7 @@ class BarCardView extends StatefulWidget {
 
 class _BarCardView extends State<BarCardView> {
 
-  //TODO_get from db
+  // TODO: get from db and delete
   String _barName = "U Karly";
   String _eventLoc = "Brno";
   String _eventName = "Finlandia 2+1";
@@ -16,7 +17,14 @@ class _BarCardView extends State<BarCardView> {
   Widget build(BuildContext context) {
     return Center(
       widthFactor: double.infinity,
-      child: Card(
+      child: GestureDetector(
+        onTap:() {
+          Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => BarDetailView())
+          );
+        },
+        child: Card(
         child: Container(
             width: double.infinity,
             decoration: BoxDecoration(
@@ -129,6 +137,6 @@ class _BarCardView extends State<BarCardView> {
             ),
           )
       ),
-    );
+    ));
   }
 }

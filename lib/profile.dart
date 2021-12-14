@@ -183,7 +183,18 @@ class _ProfilePageState extends State<ProfilePage> {
                         return;
                       }
                       changePassword(oldPasswordController.text,
-                          newPasswordController.text);
+                              newPasswordController.text)
+                          .then((value) {
+                        if (value) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Changing password succeeded')),
+                          );
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Changing password failed')),
+                          );
+                        }
+                      });
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text('Changing password')),
                       );

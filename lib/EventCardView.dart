@@ -1,7 +1,6 @@
-import 'package:drinkward/EventDetail.dart';
-import 'package:drinkward/register.dart';
-import 'package:drinkward/widget/common.dart';
 import 'package:flutter/material.dart';
+import 'EventDetailView.dart';
+import 'package:drinkward/misc.dart';
 
 class EventCardView extends StatefulWidget {
   @override
@@ -31,6 +30,12 @@ class _EventCardView extends State<EventCardView> {
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
             ListTile(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => EventDetailView())
+                );
+              },
               leading: Icon(
                 Icons.local_drink_sharp,
                 color: Colors.blue,

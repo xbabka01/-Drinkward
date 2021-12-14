@@ -87,19 +87,6 @@ class _LoginPageState extends State<LoginPage> {
                       ],
                     ),
                   ),
-                  // SizedBox(
-                  //   height: 32,
-                  // ),
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.start,
-                  //   children: [
-                  //     CustomCheckbox(),
-                  //     SizedBox(
-                  //       width: 12,
-                  //     ),
-                  //     Text('Remember me', style: regular16pt),
-                  //   ],
-                  // ),
                   SizedBox(
                     height: 32,
                   ),
@@ -116,8 +103,17 @@ class _LoginPageState extends State<LoginPage> {
 
                       final name = nameController.text;
                       final password = passwordController.text;
-                      login(context, name, password)
-                          .then((value) => Navigator.pop(context));
+                      login(context, name, password).then((value) {
+                        if (value) {
+                          Navigator.pop(context);
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Invalid email or password'),
+                            ),
+                          );
+                        }
+                      });
                     },
                   ),
                   SizedBox(

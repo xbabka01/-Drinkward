@@ -24,20 +24,22 @@ dependencies:
   substring_highlight: ^1.0.33
   flutter:
     sdk: flutter
-  provider: ^6.0.0
-  shared_preferences: ^2.0.11
-  postgres: ^2.4.2
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   google_maps_flutter: ^2.1.1
   location: ^4.3.0
   permission: ^0.1.7
+  provider: ^6.0.0
+  shared_preferences: ^2.0.11
+  postgres: ^2.4.2
+  fluent_query_builder: ^3.0.1
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  validators: ^2.0.0 # change to latest version
+  validators: ^3.0.0 # change to latest version
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
