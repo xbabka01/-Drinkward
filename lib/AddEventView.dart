@@ -53,12 +53,10 @@ class _AddEvent extends State<AddEvent> {
     for (final row in results) {
       pubs.add(row[0]);
     }
-    connection.close();
     return pubs;
   }
 
   Future addEvent() async {
-    await connection.open();
     List<List<dynamic>> results = await connection.query("SELECT id FROM public.\"Pubs\" WHERE google_id = \'" + "jhkjk21321jhhgjh" + "\'");
     if (results.isEmpty || results[0].isEmpty) {
       // TODO poloha a ostatne
@@ -105,6 +103,7 @@ class _AddEvent extends State<AddEvent> {
               EdgeInsets.only(left: 10, top: 20, right: 20, bottom: 10),
               alignment: Alignment.topRight,
               onPressed: () {
+                connection.close();
                 Navigator.pop(context);
               },
               icon: Icon(Icons.undo),
@@ -127,7 +126,7 @@ class _AddEvent extends State<AddEvent> {
                     ],
                   ),
                   SizedBox(
-                    height: 48,
+                    height: 20,
                   ),
                   Form(
                     child: Column(
