@@ -2,6 +2,7 @@ import 'package:drinkward/DateTimePicker.dart';
 import 'package:drinkward/widget/common.dart';
 import 'package:flutter/material.dart';
 import 'package:postgres/postgres.dart';
+import 'package:substring_highlight/substring_highlight.dart';
 
 class AddEvent extends StatefulWidget {
   @override
@@ -46,45 +47,36 @@ class _AddEvent extends State<AddEvent> {
 
   Future<List<String>> getPubs() async {
     // TODO google maps api?
+    await connection.open();
     List<List<dynamic>> results = await connection.query("SELECT name FROM public.\"Pubs\"");
     List<String> pubs = [];
     for (final row in results) {
       pubs.add(row[0]);
     }
+    connection.close();
     return pubs;
   }
 
-  Future<bool> addEvent() async {
-    print("search pub");
+  Future addEvent() async {
+    await connection.open();
     List<List<dynamic>> results = await connection.query("SELECT id FROM public.\"Pubs\" WHERE google_id = \'" + "jhkjk21321jhhgjh" + "\'");
     if (results.isEmpty || results[0].isEmpty) {
-      print("empty pub");
       // TODO poloha a ostatne
       // TODO addToPub
       List<dynamic> _ = await connection.query("INSERT INTO public.\"Pubs\" (google_id) VALUES (\'" + "jhkjk21321jhhgjh" + "\')");
-      print("Inserted new pub");
       List<dynamic> pubID = await connection.query("SELECT id FROM public.\"Pubs\" WHERE google_id = \'" + addToPub.toString() + "\'");
-      print("new pub id");
       String quer = "INSERT INTO public.\"Events\" (\"from\", \"to\", \"about\", \"name\") VALUES (\'" + newStartDate.toString().split(" ")[0] + "\', \'" + newEndDate.toString().split(" ")[0] + "\', \'" + newDescription + "\', \'" + name + "\')";
       List<List<dynamic>> s = await connection.query(quer);
-      print("added event");
       List<dynamic> eventID = await connection.query("SELECT MAX(id) FROM public.\"Events\"");
-      print("new event id");
       List<dynamic> ss = await connection.query("INSERT INTO public.\"EventsPubs\" (pubs_id, events_id) VALUES (\'" + pubID.toString() + "\', \'" + eventID.toString() + "\')");
-      print("inserted relation");
     } else {
-      print("parsing pub id");
       String quer = "INSERT INTO public.\"Events\" (\"from\", \"to\", \"about\", \"name\") VALUES (\'" + newStartDate.toString().split(" ")[0] + "\', \'" + newEndDate.toString().split(" ")[0] + "\', \'" + newDescription + "\', \'" + name + "\')";
       List<List<dynamic>> _ = await connection.query(quer);
       List<dynamic> eventID = await connection.query("SELECT MAX(id) FROM public.\"Events\"");
-      print("new event id");
       int val = results[0][0];
-      print(val);
-      print(eventID[0][0].toString());
       List<dynamic> ss = await connection.query("INSERT INTO public.\"EventsPubs\" (pubs_id, events_id) VALUES (\'" + val.toString() + "\', \'" + eventID[0][0].toString() + "\')");
-      print("inserted relation");
     }
-    return true;
+    connection.close();
   }
 
   int findPubIndex(String selected) {
@@ -97,6 +89,9 @@ class _AddEvent extends State<AddEvent> {
     }
     return -1;
   }
+
+  final TextEditingController _typeAheadController = TextEditingController();
+  late TextEditingController controller;
 
 
   @override
@@ -183,31 +178,68 @@ class _AddEvent extends State<AddEvent> {
                         SizedBox(
                           height: 32,
                         ),
-                        Row(
-                          children: [
-                            Text("*Pub name:"),
-                            SizedBox(),
-                          ],
-                        ),
                         Container(
                           decoration: BoxDecoration(
                             color: textWhiteGrey,
                             borderRadius: BorderRadius.circular(14.0),
                           ),
-                          child: Autocomplete<String>(
-                            // TODO delete on tap
+                          child:
+                          Autocomplete(
                             optionsBuilder: (TextEditingValue textEditingValue) {
-                              if (textEditingValue.text == '') {
+                              if (textEditingValue.text.isEmpty) {
                                 return const Iterable<String>.empty();
+                              } else {
+                                return pubs.where((word) => word
+                                    .toLowerCase()
+                                    .contains(textEditingValue.text.toLowerCase()));
                               }
-                              return pubs.where((String option) {
-                                return option.toLowerCase().contains(textEditingValue.text.toLowerCase());
-                              });
                             },
-                            onSelected: (String selection) {
-                              addToPub = findPubIndex(selection);
+                            optionsViewBuilder:
+                                (context, Function(String) onSelected, options) {
+                              return Material(
+                                elevation: 4,
+                                child: ListView.separated(
+                                    padding: EdgeInsets.zero,
+                                    itemBuilder: (context, index) {
+                                      final option = options.elementAt(index);
+                                      return ListTile(
+                                        // title: Text(option.toString()),
+                                        title: SubstringHighlight(
+                                          text: option.toString(),
+                                          term: controller.text,
+                                          textStyleHighlight: TextStyle(fontWeight: FontWeight.w700),
+                                        ),
+                                        // subtitle: Text(""),
+                                        onTap: () {
+                                          onSelected(option.toString());
+                                        },
+                                      );
+                                    },
+                                    separatorBuilder: (context, index) => Divider(),
+                                    itemCount: options.length,
+                                  ),
+                              );
                             },
-                          ),
+                            onSelected: (selectedString) {
+                              print(selectedString);
+                            },
+                            fieldViewBuilder:
+                                (context, controller, focusNode, onEditingComplete) {
+                              this.controller = controller;
+                              return TextField(
+                                controller: controller,
+                                focusNode: focusNode,
+                                onEditingComplete: onEditingComplete,
+                                decoration: InputDecoration(
+                                  hintText: '*Pub name',
+                                  hintStyle: heading6.copyWith(color: textGrey),
+                                  border: OutlineInputBorder(
+                                    borderSide: BorderSide.none,
+                                  ),
+                                ),
+                              );
+                            },
+                          )
                         ),
                         SizedBox(
                           height: 32,

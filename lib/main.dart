@@ -72,6 +72,7 @@ class _MyHomePageState extends State<MyHomePage> {
       print(name);
     }
     print("Connected to DB");
+    connection.close();
   }
 
   @override

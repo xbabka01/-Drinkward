@@ -21,6 +21,7 @@ environment:
   sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
+  substring_highlight: ^1.0.33
   flutter:
     sdk: flutter
   provider: ^6.0.0
@@ -31,6 +32,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   google_maps_flutter: ^2.1.1
   location: ^4.3.0
+  permission: ^0.1.7
 
 dev_dependencies:
   flutter_test:
