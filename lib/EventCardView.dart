@@ -2,7 +2,18 @@ import 'package:flutter/material.dart';
 import 'EventDetailView.dart';
 import 'package:drinkward/misc.dart';
 
+String from = "";
+String to = "";
+String about = "";
+String name = "";
+
 class EventCardView extends StatefulWidget {
+  EventCardView (String param1, String param2, String param3, String param4) {
+    from = param1;
+    to = param2;
+    about = param3;
+    name = param4;
+  }
   @override
   _EventCardView createState() => _EventCardView();
 }
@@ -41,14 +52,14 @@ class _EventCardView extends State<EventCardView> {
                 color: Colors.blue,
                 size: 50.0,
               ),
-              title: Text('Finlandia 2+1'), //TODO: get name from db
+              title: Text(name),
               subtitle: Column(
                 children: <Widget>[
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       Icon(Icons.calendar_today_sharp),
-                      Text("21.8.2020 - 28.8.2020"), //TODO: get date from db
+                      Text("13.12.2021 - 24.12.2021"),
                       const SizedBox(width: 8),
                     ],
                   ),

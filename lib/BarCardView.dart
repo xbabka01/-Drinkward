@@ -1,20 +1,27 @@
 import 'package:flutter/material.dart';
 import 'BarDetailView.dart';
+import 'dart:math';
+
+String p1 = "";
+String p2 = "";
 
 class BarCardView extends StatefulWidget {
+  BarCardView(String param1, String param2) {
+    p1 = param1;
+    p2 = param2;
+  }
   @override
   _BarCardView createState() => _BarCardView();
 }
 
 class _BarCardView extends State<BarCardView> {
-
-  // TODO: get from db and delete
-  String _barName = "U Karly";
-  String _eventLoc = "Brno";
-  String _eventName = "Finlandia 2+1";
-
   @override
   Widget build(BuildContext context) {
+    Random random = new Random();
+    var rng1 = random.nextInt(10) + 3;
+    var rng2 = random.nextInt(10) + 2;
+    var rng3 = random.nextInt(10) + 1;
+
     return Center(
       widthFactor: double.infinity,
       child: GestureDetector(
@@ -67,7 +74,7 @@ class _BarCardView extends State<BarCardView> {
                       Row(
                         children: [
                           Text(
-                            "$_barName",
+                            p1,
                             style: TextStyle(
                               fontSize: 30,
                             ),
@@ -81,7 +88,7 @@ class _BarCardView extends State<BarCardView> {
                             size: 20,
                           ),
                           Text(
-                            "$_eventLoc",
+                            p2,
                             style: TextStyle(
                               fontSize: 15,
                             ),
@@ -115,18 +122,17 @@ class _BarCardView extends State<BarCardView> {
                       children: [
                         Row(
                             children: [
-                              // TODO: get all events of one bar from db
-                              Text('$_eventName')
+                              Text("Finlandia $rng1"),
                             ]
                         ),
                         Row(
                             children: [
-                              Text('$_eventName')
+                              Text("Rum $rng2"),
                             ]
                         ),
                         Row(
                             children: [
-                              Text('$_eventName')
+                              Text("Absinth $rng3"),
                             ]
                         ),
                       ],
