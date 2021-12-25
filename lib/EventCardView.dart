@@ -1,37 +1,41 @@
 import 'package:flutter/material.dart';
 import 'EventDetailView.dart';
-import 'package:drinkward/misc.dart';
+import 'package:intl/intl.dart';
+
 
 String from = "";
 String to = "";
 String about = "";
 String name = "";
+int likes = 0;
+int dislikes = 0;
+String barName = "";
 
 class EventCardView extends StatefulWidget {
-  EventCardView (String param1, String param2, String param3, String param4) {
-    from = param1;
-    to = param2;
+  EventCardView (String param1, String param2, String param3, String param4, int likesParam, int dislikesParam, String barNameParam) {
+    from = param1.split(" ")[0];
+    to = param2.split(" ")[0];
     about = param3;
     name = param4;
+    likes = likesParam;
+    dislikes = dislikesParam;
+    barName = barNameParam;
   }
   @override
   _EventCardView createState() => _EventCardView();
 }
 
+enum UserRated{
+  liked,
+  disliked,
+  none,
+}
+
+final DateFormat formatter = DateFormat('yyyy-MM-dd');
+
 class _EventCardView extends State<EventCardView> {
-  // bool passwordVisible = false;
-
-  // void togglePassword() {
-  //   setState(() {
-  //     passwordVisible = !passwordVisible;
-  //   });
-  // }
-
   //TODO: get from db
-  int _likes = 0;
-  int _dislikes = 0;
-  bool _likesPressed = false;
-  bool _dislikesPressed = false;
+  UserRated userRate = UserRated.none;
 
   @override
   Widget build(BuildContext context) {
@@ -55,20 +59,23 @@ class _EventCardView extends State<EventCardView> {
               title: Text(name),
               subtitle: Column(
                 children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Icon(Icons.calendar_today_sharp),
-                      Text("13.12.2021 - 24.12.2021"),
-                      const SizedBox(width: 8),
-                    ],
+                  Container(
+                    width:  400,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Icon(Icons.calendar_today_sharp),
+                        Text(from),
+                        Text(" - "),
+                        Text(to),
+                      ],
+                    ),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       Icon(Icons.location_on_sharp),
-                      Text("Hospoda u Karly, Brno"), //TODO: get location from db
-                      const SizedBox(width: 8),
+                      Text(barName), //TODO: get location from db
                     ],
                   ),
                   Row(
@@ -81,17 +88,27 @@ class _EventCardView extends State<EventCardView> {
                          setState(() {
                            // TODO: on second pres --,
                            // TODO: check if user is logged in
-                           if (_likesPressed) {
-                             _likes -= 1;
+                           switch (userRate) {
+                             case UserRated.none: {
+                               userRate = UserRated.liked;
+                               likes++;
+                             }
+                             break;
+                             case UserRated.liked: {
+                               userRate = UserRated.none;
+                               likes--;
+                             }
+                             break;
+                             case UserRated.disliked: {
+                               userRate = UserRated.liked;
+                               likes++;
+                               dislikes--;
+                             }
                            }
-                           else{
-                             _likes += 1;
-                           }
-                             _likesPressed = !_likesPressed;
                          });
                         }
                       ),
-                      Text('$_likes'),
+                      Text('$likes'),
                       const SizedBox(width: 4),
                       IconButton(
                         icon: const Icon(Icons.thumb_down_off_alt_outlined),
@@ -99,17 +116,27 @@ class _EventCardView extends State<EventCardView> {
                         onPressed: () {
                           setState(() {
                             // TODO: check user logged in
-                            if (_dislikesPressed) {
-                              _dislikes -= 1;
+                            switch (userRate) {
+                              case UserRated.none: {
+                                userRate = UserRated.disliked;
+                                dislikes++;
+                              }
+                              break;
+                              case UserRated.liked: {
+                                userRate = UserRated.disliked;
+                                dislikes++;
+                                likes--;
+                              }
+                              break;
+                              case UserRated.disliked: {
+                                userRate = UserRated.none;
+                                dislikes--;
+                              }
                             }
-                            else{
-                              _dislikes += 1;
-                            }
-                            _dislikesPressed = !_dislikesPressed;
                           });
                         },
                       ),
-                      Text('$_dislikes'),
+                      Text('$dislikes'),
                       const SizedBox(width: 4),
                     ],
                   ),

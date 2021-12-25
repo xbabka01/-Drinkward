@@ -4,7 +4,18 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:postgres/postgres.dart';
 import 'package:intl/intl.dart';
 
+// TODO: delete after get from db
+String _barName = "U Karly";
+String _eventLoc = "Brno";
+String _eventName = "Finlandia 2+1";
+String _eventDate = "21.8.2020 - 28.8.2020";
+int barIdentifier = 0;
+
 class BarDetailView extends StatefulWidget {
+  BarDetailView(int barID) {
+    barIdentifier = barID;
+  }
+
   @override
   _BarDetailView createState() => _BarDetailView();
 }
@@ -23,16 +34,6 @@ class _BarDetailView extends State<BarDetailView> {
       password: "8b02dd03e907d484f22e131a74b40c4d087cdc4a50f9f22bee4d02c6506e285d",
       useSSL: true
   );
-
-  void initState() {
-    super.initState();
-  }
-
-  // TODO: delete after get from db
-  String _barName = "U Karly";
-  String _eventLoc = "Brno";
-  String _eventName = "Finlandia 2+1";
-  String _eventDate = "21.8.2020 - 28.8.2020";
 
   Future<Pub> getBarDetails(int id) async {
     await connection.open();
@@ -75,7 +76,7 @@ class _BarDetailView extends State<BarDetailView> {
             padding: EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 0),
             child: Center(
               child: FutureBuilder<Pub>(
-                future: getBarDetails(0), //TODO: id dynamicly
+                future: getBarDetails(barIdentifier), //TODO: id dynamicly
                 builder: (context, snapshot){
                   if(snapshot.hasData){
                     return new Column(

@@ -48,7 +48,7 @@ class _BarsListView extends State<BarsListView> {
                // };
                 String p2 = item[3];
                 return Card(
-                  child: BarCardView(p1, p2),
+                  child: BarCardView(p1, p2, item[0]),
                 );
               },
             );

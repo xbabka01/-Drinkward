@@ -1,14 +1,19 @@
+import 'package:drinkward/models/models.dart';
 import 'package:flutter/material.dart';
 import 'BarDetailView.dart';
 import 'dart:math';
 
-String p1 = "";
-String p2 = "";
+String name = "";
+String city = "";
+List<Event> events = [];
+int barIdentifier = 0;
 
 class BarCardView extends StatefulWidget {
-  BarCardView(String param1, String param2) {
-    p1 = param1;
-    p2 = param2;
+  BarCardView(String param1, String param2, int barID) {
+    name = param1;
+    city = param2;
+    events = [];
+    barIdentifier = barID;// TODO database
   }
   @override
   _BarCardView createState() => _BarCardView();
@@ -28,7 +33,7 @@ class _BarCardView extends State<BarCardView> {
         onTap:() {
           Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => BarDetailView())
+              MaterialPageRoute(builder: (context) => BarDetailView(barIdentifier))
           );
         },
         child: Card(
@@ -74,7 +79,7 @@ class _BarCardView extends State<BarCardView> {
                       Row(
                         children: [
                           Text(
-                            p1,
+                            name,
                             style: TextStyle(
                               fontSize: 30,
                             ),
@@ -88,7 +93,7 @@ class _BarCardView extends State<BarCardView> {
                             size: 20,
                           ),
                           Text(
-                            p2,
+                            city,
                             style: TextStyle(
                               fontSize: 15,
                             ),
