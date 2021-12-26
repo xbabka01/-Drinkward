@@ -1,5 +1,7 @@
 import 'package:drinkward/EventCardView.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:drinkward/EventDetailView.dart';
 import 'package:postgres/postgres.dart';
 
 var results;
@@ -41,17 +43,23 @@ class _EventsListView extends State<EventsListView> {
                 String to = item[2].toString();
                 String about = item[3];
                 String name = item[5];
+                print("aaaaaaaaa");
                 print(item);
                 int likes = 0; // item[];
                 int dislikes = 0; // item[];
                 String barName = "safd";// item[];
-                return Card(
+                return new GestureDetector(
+                  onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => EventDetailView())
+                    );
+                  },
                   child: EventCardView(from,to,about,name, likes, dislikes, barName),
                 );
-              },
+              }
             );
-          }
-          else {
+          } else {
             return new CircularProgressIndicator();
           }
         },
