@@ -1,6 +1,5 @@
 import 'package:drinkward/models/models.dart';
 import 'package:flutter/material.dart';
-import 'BarDetailView.dart';
 import 'dart:math';
 
 String name = "";
@@ -9,11 +8,10 @@ List<Event> events = [];
 int barIdentifier = 0;
 
 class BarCardView extends StatefulWidget {
-  BarCardView(String param1, String param2, int barID) {
+  BarCardView(String param1, String param2) {
     name = param1;
     city = param2;
     events = [];
-    barIdentifier = barID;// TODO database
   }
   @override
   _BarCardView createState() => _BarCardView();
@@ -29,15 +27,8 @@ class _BarCardView extends State<BarCardView> {
 
     return Center(
       widthFactor: double.infinity,
-      child: GestureDetector(
-        onTap:() {
-          Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => BarDetailView(barIdentifier))
-          );
-        },
-        child: Card(
-        child: Container(
+      child: new Card(
+          child: Container(
             width: double.infinity,
             decoration: BoxDecoration(
               color: Colors.white,
@@ -148,6 +139,6 @@ class _BarCardView extends State<BarCardView> {
             ),
           )
       ),
-    ));
+    );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:drinkward/BarCardView.dart';
 import 'package:flutter/material.dart';
 import 'package:postgres/postgres.dart';
+import 'package:drinkward/BarDetailView.dart';
 
 var results;
 
@@ -26,9 +27,6 @@ class _BarsListView extends State<BarsListView> {
     return results.toList();
   }
 
-  //Future<List> _users =
-  //getAllRecords(); // CALLS FUTURE
-
   @override
   Widget build(BuildContext context) {
 
@@ -42,13 +40,19 @@ class _BarsListView extends State<BarsListView> {
               itemCount: snapshot.data!.length,
               itemBuilder: (_, int position) {
                 var item = snapshot.data![position];
-
                 //if ( item.isNotEmpty ) {
                   String p1 = item[1];
                // };
                 String p2 = item[3];
-                return Card(
-                  child: BarCardView(p1, p2, item[0]),
+                return new GestureDetector(
+                    onTap:() {
+                      print(item[0]);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => BarDetailView(item[0]))
+                      );
+                    },
+                  child: BarCardView(p1, p2),
                 );
               },
             );
