@@ -4,9 +4,15 @@ import 'package:drinkward/models/models.dart';
 import 'package:postgres/postgres.dart';
 import 'package:intl/intl.dart';
 
+int eventID = 0;
+
 class EventDetailView extends StatefulWidget {
   @override
   _EventDetailView createState() => _EventDetailView();
+
+  EventDetailView(int id) {
+    eventID = id;
+  }
 }
 
 class _EventDetailView extends State<EventDetailView> {
@@ -26,14 +32,14 @@ class _EventDetailView extends State<EventDetailView> {
     super.initState();
   }
 
-  Future<Event> getEventDetails(int id) async {
+  Future<Event> getEventDetails() async {
     await connection.open();
-    List<List<dynamic>> results = await connection.query("SELECT * FROM public.\"Events\" WHERE id =" + id.toString() );
+    List<List<dynamic>> results = await connection.query("SELECT * FROM public.\"Events\" WHERE id =" + eventID.toString() );
     List<List<dynamic>> pubs = await connection.query("SELECT p.id, p.name, p.google_id, p.city, p.street, p.street_number "
         "FROM public.\"Pubs\" as p "
         "INNER JOIN public.\"EventsPubs\" ep "
         "ON p.id = ep.pubs_id "
-        "WHERE ep.events_id =" + id.toString() );
+        "WHERE ep.events_id =" + eventID.toString() );
     connection.close();
     List<Pub> pubsList = [];
     for (final row in pubs) {
@@ -68,7 +74,7 @@ class _EventDetailView extends State<EventDetailView> {
             padding: EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 0),
             child: Center(
               child:FutureBuilder<Event>(
-                future: getEventDetails(10),
+                future: getEventDetails(),
                 builder: (context, snapshot) {
                   if (snapshot.hasData){
                     return new Column(

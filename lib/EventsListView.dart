@@ -1,5 +1,4 @@
 import 'package:drinkward/EventCardView.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:drinkward/EventDetailView.dart';
 import 'package:postgres/postgres.dart';
@@ -50,12 +49,12 @@ class _EventsListView extends State<EventsListView> {
                 String barName = "safd";// item[];
                 return new GestureDetector(
                   onTap: () {
-                  Navigator.push(
+                    Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => EventDetailView())
+                      MaterialPageRoute(builder: (context) => EventDetailView(item[0]))
                     );
                   },
-                  child: EventCardView(from,to,about,name, likes, dislikes, barName),
+                  child: EventCardView(from, to, about, name, likes, dislikes, barName),
                 );
               }
             );

@@ -46,7 +46,6 @@ class _BarsListView extends State<BarsListView> {
                 String p2 = item[3];
                 return new GestureDetector(
                     onTap:() {
-                      print(item[0]);
                       Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => BarDetailView(item[0]))
