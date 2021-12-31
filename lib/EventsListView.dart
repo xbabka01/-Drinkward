@@ -42,8 +42,6 @@ class _EventsListView extends State<EventsListView> {
                 String to = item[2].toString();
                 String about = item[3];
                 String name = item[5];
-                print("aaaaaaaaa");
-                print(item);
                 int likes = 0; // item[];
                 int dislikes = 0; // item[];
                 String barName = "safd";// item[];
