@@ -14,7 +14,7 @@ class _AddEvent extends State<AddEvent> {
   DateTime newEndDate = DateTime.now();
   String newDescription = "";
   String name = "";
-  int? addToPub;
+  String addToPubName = "";
   List<String> pubs = [];
   var connection = PostgreSQLConnection("ec2-52-209-246-87.eu-west-1.compute.amazonaws.com",
       5432,
@@ -57,12 +57,11 @@ class _AddEvent extends State<AddEvent> {
   }
 
   Future addEvent() async {
-    List<List<dynamic>> results = await connection.query("SELECT id FROM public.\"Pubs\" WHERE google_id = \'" + "jhkjk21321jhhgjh" + "\'");
+    List<List<dynamic>> results = await connection.query("SELECT id FROM public.\"Pubs\" WHERE name = \'" +  addToPubName.toString() + "\'");
     if (results.isEmpty || results[0].isEmpty) {
       // TODO poloha a ostatne
-      // TODO addToPub
-      List<dynamic> _ = await connection.query("INSERT INTO public.\"Pubs\" (google_id) VALUES (\'" + "jhkjk21321jhhgjh" + "\')");
-      List<dynamic> pubID = await connection.query("SELECT id FROM public.\"Pubs\" WHERE google_id = \'" + addToPub.toString() + "\'");
+      List<dynamic> _ = await connection.query("INSERT INTO public.\"Pubs\" (name) VALUES (\'" +  addToPubName.toString() + "\')");
+      List<dynamic> pubID = await connection.query("SELECT id FROM public.\"Pubs\" WHERE name = \'" + addToPubName.toString() + "\'");
       String quer = "INSERT INTO public.\"Events\" (\"from\", \"to\", \"about\", \"name\") VALUES (\'" + newStartDate.toString().split(" ")[0] + "\', \'" + newEndDate.toString().split(" ")[0] + "\', \'" + newDescription + "\', \'" + name + "\')";
       List<List<dynamic>> s = await connection.query(quer);
       List<dynamic> eventID = await connection.query("SELECT MAX(id) FROM public.\"Events\"");
@@ -220,6 +219,7 @@ class _AddEvent extends State<AddEvent> {
                               );
                             },
                             onSelected: (selectedString) {
+                              addToPubName = selectedString.toString();
                               print(selectedString);
                             },
                             fieldViewBuilder:
